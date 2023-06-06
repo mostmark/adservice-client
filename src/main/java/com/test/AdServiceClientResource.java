@@ -5,11 +5,18 @@ import hipstershop.stubs.AdRequest;
 import hipstershop.stubs.AdResponse;
 import hipstershop.stubs.AdServiceGrpc;
 import io.quarkus.grpc.GrpcClient;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+
+import java.util.logging.Logger;
 
 @Path("/ads")
 public class AdServiceClientResource {
+
+    private static final Logger LOG = Logger.getLogger(AdServiceClientResource.class.getName());
 
     @GrpcClient
     AdServiceGrpc.AdServiceBlockingStub adservice;
@@ -18,7 +25,7 @@ public class AdServiceClientResource {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/{context}")
     public String hello(@PathParam("context") String context) {
-        System.out.println("Received request! Context = " + context);
+        LOG.info("Received request! Context = " + context);
 
         String message = "";
 
@@ -36,7 +43,7 @@ public class AdServiceClientResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String helloRandom() {
-        System.out.println("Received request! No context parameter provided");
+        LOG.info("Received request! No context parameter provided");
 
         String message = "";
 
