@@ -5,5 +5,5 @@ This implementation uses Quarkus and the gRPC extension.
 
 To deploy to OpenShift:
 
-  oc new-app java~https://github.com/mostmark/adservice-client.git -e quarkus.grpc.clients.adservice.host=adservice -l app.openshift.io/runtime=quarkus
-  oc expose service/adservice-client
+    oc new-app java~https://github.com/mostmark/adservice-client.git -e quarkus.grpc.clients.adservice.host=adservice -l app.openshift.io/runtime=quarkus
+    oc expose service/adservice-client
