@@ -40,14 +40,23 @@
             font-size: 1rem
         }
 
+        /* Label styling */
         .label {
         display: inline-block;
-        width: 500px;
+        width: 500px;               /* matches select width */
         font-weight: 400;
         font-size: 22px;
         color: #008CBA;
         margin: 8px 0 4px 0;
         box-sizing: border-box;
+        transition: color 0.2s ease; /* smooth color fade */
+        }
+
+        /* Hover effect when hovering the select OR the label itself */
+        .label:hover,
+        select:hover + .label,
+        select:hover ~ .label {
+        color: #006f95;
         }
 
         .lead {
@@ -138,44 +147,58 @@
         }
 
         select {
-        width: 500px;
-        padding: 12px 44px 12px 20px; /* right padding leaves room for chevron */
-        margin: 8px 0;
-        box-sizing: border-box;
-        border: 2px solid #008CBA;
-        border-radius: 4px;
-        font-size: 25px;
-        background-color: #fff;
-        /* remove native arrows; show custom one */
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23008CBA'%3E%3Cpath d='M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.06l3.71-2.83a.75.75 0 1 1 .92 1.18l-4.2 3.2a.75.75 0 0 1-.92 0l-4.2-3.2a.75.75 0 0 1-.02-1.06z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 18px 18px;
-        cursor: pointer;
+            width: 500px;
+            padding: 12px 44px 12px 20px; /* right padding leaves room for chevron */
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #008CBA;
+            border-radius: 4px;
+            font-size: 25px;
+            background-color: #fff;
+            /* remove native arrows; show custom one */
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23008CBA'%3E%3Cpath d='M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.06l3.71-2.83a.75.75 0 1 1 .92 1.18l-4.2 3.2a.75.75 0 0 1-.92 0l-4.2-3.2a.75.75 0 0 1-.02-1.06z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px 18px;
+            cursor: pointer;
         }
 
-        select:hover {
-        border-color: #0079a3;
+        /* Focus effect — when the select gets focus, label darkens */
+        select:focus + .label,
+        select:focus ~ .label {
+            color: #005f80;
         }
 
         select:focus {
-        outline: none;
-        border-color: #008CBA;
-        box-shadow: 0 0 0 3px rgba(0, 140, 186, 0.25);
+            outline: none;
+            border-color: #008CBA;
+            box-shadow: 0 0 0 3px rgba(0, 140, 186, 0.25);
         }
 
         /* optional: make options a bit roomier on some platforms */
         select option {
-        padding: 8px 12px;
+            padding: 8px 12px;
+        }
+
+        /* Space and alignment for message area */
+        #message {
+        width: 500px;               /* matches input/select */
+        min-height: 50px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #008CBA;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 22px;
+        color: #333;
+        margin-top: 4px;
+        white-space: pre-wrap;      /* preserve newlines if any */
         }
         
-        
     </style>
-
-
 </head>
 
 <body>
@@ -187,50 +210,52 @@
 <div class="container">
     <div class="left-column">
         <p>
+            <label for="contextkey" class="label">Select context for ad:</label>
             <div class="form-group">
-            <label for="contextkey" class="label">Select context for ad:</label><br>
-            <select type="text" id="contextkey">
-                <option value="random">Random</option>
-                <option value="clothing">Clothing</option>
-                <option value="accessories">Accessories</option>
-                <option value="footwear">Footwear</option>
-                <option value="hair">Hair</option>
-                <option value="decor">Decor</option>
-                <option value="kitchen">Kitchen</option>
-            </select>
+                <select name="fruits" id="contextkey">
+                    <option value="random">Random</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="footwear">Footwear</option>
+                    <option value="hair">Hair</option>
+                    <option value="decor">Decor</option>
+                    <option value="kitchen">Kitchen</option>
+                </select>
             </div>
         </p>
         <p><button class="button" onclick="getAds(document.getElementById('contextkey').value)" id="getAdsButton">Get Ads</button></p>
-        <p id="message" class="lead"></p>
+        <div class="form-group">
+            <label for="message" class="label">Ads:</label><br>
+            <p id="message" class="lead"></p>
+        </div>
         <p><a href="./ads/"/>api endpoint</p>
     </div>
-
 </div>
 
 <script>
 
-        getAds()
+    getAds()
 
-        .catch(error => {
-                console.error(error);
-                document.getElementById('message').innerHTML = 'Oops! An error occured when calling the API. Error message: ' + error;
-        });
+    .catch(error => {
+            console.error(error);
+            document.getElementById('message').innerHTML = 'Oops! An error occured when calling the API. Error message: ' + error;
+    });
 
-        var input = document.getElementById("contextkey");
-        input.addEventListener("keypress", function(event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            document.getElementById("getAdsButton").click();
-          }
-        });
-
-        async function getAds(contextkey) {
-            const response = await fetch('./ads/' + contextkey);
-            const themessage = await response.text();
-            document.getElementById('message').innerHTML = themessage;
+    var input = document.getElementById("contextkey");
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("getAdsButton").click();
         }
+    });
 
-    </script>
+    async function getAds(contextkey) {
+        const response = await fetch('./ads/' + contextkey);
+        const themessage = await response.text();
+        document.getElementById('message').innerHTML = themessage;
+    }
+
+</script>
 
 
 </body>
