@@ -10,3 +10,9 @@ oc new-app java~https://github.com/mostmark/adservice-client.git -e quarkus.grpc
 oc expose service/adservice-client
 
 ```
+
+To deploy this application from a prebuilt container image:
+
+```
+oc apply -f https://raw.githubusercontent.com/mostmark/adservice-client/refs/heads/main/deployment.yaml
+```
